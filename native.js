@@ -29,7 +29,7 @@ members.forEach(m => {
     avgAge += isNaN(m.age) ? 0 : m.age;
 })
 avgAge /= members.length;
-avgAge = Math.round(avgAge, 2)
+avgAge = Math.round(avgAge)
 
 // 5. Get Person with maximum age
 var ans = members[0].name;
