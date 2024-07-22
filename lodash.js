@@ -11,37 +11,29 @@ const members = [
 ];
 
 // 1. Get array of first names of everyone
-const firstNamesArray = [];
-_.forEach(members, m => {
-    firstNamesArray.push(m.name.split(" ")[0]);
-});
+const firstNamesArray = _.map(members, m => m.name.split(" ")[0]);
+console.log(firstNamesArray);
 
 // 2. Make everyone's last names in UPPERCASE in given array of objects
 _.forEach(members, m => {
-    const lastName = m.name.split(" ")[1];
-    m.name = m.name.replace(lastName, lastName.toUpperCase());
+    const [lastName] = _.tail(_.split(m.name, ' '));
+    m.name = _.replace(m.name, lastName, lastName.toUpperCase());
 });
+console.log(members);
 
 // 3. Get entries where age is between 41-60
 const ageFilter = _.filter(members, m => m.age >= 41 && m.age <= 60);
+console.log(ageFilter);
 
 // 4. Get average age
-var avgAge = 0;
-_.forEach(m => {
-    avgAge += isNaN(m.age) ? 0 : m.age;
-})
-avgAge /= members.length;
-avgAge = _.round(avgAge);
+var sumOfAge = _.sumBy(members, 'age');
+var avgAge = _.divide(sumOfAge, _.size(members));
+var roundedAvgAge = _.round(avgAge);
+console.log(roundedAvgAge);
 
 // 5. Get Person with maximum age
-var ans = members[0].name;
-var maxAge = members[0].age;
-_.forEach(members, m => {
-    if (m.age > maxAge) {
-        maxAge = m.age;
-        ans = m.name;
-    }
-});
+var personWithMaxAge = _.maxBy(members, 'age');
+console.log(personWithMaxAge);
 
 // 6. Divide persons in three groups, result should look like
 //     {
@@ -56,48 +48,51 @@ var res = {
     'noage': []
 };
 _.forEach(members, m => {
-    m.age < 35 && res['young'].push(m.name);
-    m.age >= 35 && res['old'].push(m.name);
-    !m.age && res['noage'].push(m.name);
+    if (m.age < 35) res['young'].push(m.name);
+    else if (m.age >= 35) res['old'].push(m.name);
+    else res['noage'].push(m.name);
 });
+console.log(res);
 
 // 7. add a new member to same members array instance at index 2
 const newMember = { name: 'aman', age: 21 };
 
-
 // 8. extract first and second element using destructing
 const [elem1, elem2] = members;
+console.log(elem1, elem2);
 
 // 9. Create a new array instance adding a new member at index 0, and keeping existing afterwards
 const newMemberArray = [{ name: 'test', age: 30 }];
 const newMembers = _.concat(newMemberArray, members);
+console.log(newMembers);
 
 // 10. Extract properties of object using destructuring
-// const { name, age } = members[0];
+// const { name, age } = _.head(members);
 
 // 11. Rename extracted property of object while destructing
-const { name: firstname, age } = members[0];
-console.log(firstname);
+const { name: firstname, age } = _.head(members);
+console.log(firstname, age);
 
 // 12. Destructure any property of an object and use spread operator to get remaining properties in an object
-// const { name, ...rest } = members[0];
+const { name, ...rest } = _.head(members);
+console.log(name, rest);
 
 // 13. Create a new object by copying using spread operator, override one of the properties to assign a new value in the same step
-const { ...props } = members[0];
+const { ...props } = _.head(members);
 props.name = "a"
 const newObj = props;
+console.log(newObj);
 
 // 14. Use reduce function on array and object
 const result1 = _.reduce(members, (prev, curr) => {
-    const name = prev.name + " " + curr.name;
+    const name = _.add(_.get(prev, 'name'), _.add(" ", _.get(curr, 'name')));
     return { name };
 });
 
 console.log(result1.name);
 
-const result2 = _.reduce(Object.keys(members[0]), (prev, curr) => {
-    const returnValue = members[0][prev] + " " + members[0][curr];
-    return returnValue
+const result2 = _.reduce(Object.keys(_.head(members)), (prev, curr) => {
+    return _.add(_.get(_.head(members), prev), _.add(" ", _.get(_.head(members), curr)));
 });
 
 console.log(result2);
