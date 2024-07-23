@@ -76,7 +76,7 @@ members.splice(2, 0, newMember);
 const [elem1, elem2] = members;
 
 // 9. Create a new array instance adding a new member at index 0, and keeping existing afterwards
-const newMemberArray: object[] = [{ name: 'test', age: 30 }]
+const newMemberArray: User[] = [{ name: 'test', age: 30 }]
 const newMembers = newMemberArray.concat(members);
 
 // 10. Extract properties of object using destructuring
